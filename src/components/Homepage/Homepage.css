@@ -1,0 +1,57 @@
+
+/*-------------- Homepage image gif ----------------*/
+
+.homePageImage{
+    border: solid 0.02rem #d4d412;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding: 10px 5px;
+    margin: auto;
+    width: 35%;
+    animation: widthDown 1s 1 forwards;
+
+}
+
+.homePageImage:hover{
+    border: solid 0.02rem turquoise;
+    padding: 0%;
+    margin: auto;
+    width: 40%;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation: widthUp 1s 1 forwards;
+}
+
+@keyframes widthUp {
+    from {width: 35%}
+    to {width:40%}
+}
+@keyframes widthDown {
+    from {width: 40%}
+    to {width:35%}
+}
+
+
+/*----------- Top Dynamic Heaading --------------------*/
+#spanHeader{
+    color: rgb(255 118 0 / 66%);
+    background: border-box;
+    font-style: italic;
+    letter-spacing: 0;
+    padding: 0 5px;
+    border-radius: 5px;
+    background-color: bisque;
+}
+
+/*----------- Carousal --------------------*/
+.carousel {
+    position: relative;
+    width: 95%;
+    margin: auto;
+}
+
+.slideImage{
+    margin: auto;
+    width: 100%;
+    padding: 20px;
+}
