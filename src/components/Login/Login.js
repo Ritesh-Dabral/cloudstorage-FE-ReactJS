@@ -10,21 +10,20 @@ class Login extends Component {
 
     render() {
         return (
-            <Jumbotron id="loginDiv">
-                <Navbar bg="info" fixed="top">
+            <Jumbotron id="loginDiv" fluid style={{padding:"0%", margin:"auto", width:"100%"}}>
+                <Navbar bg="info">
                     <Navbar.Brand><Link to="/" style={{color: "#f0f3f5"}} id="linkHover">KloudStorage</Link></Navbar.Brand>
                 </Navbar>
 
                 <Container id="loginContainer" fluid>
-                    <Card id="loginCard">
-                        
+                    <Card id="loginCard">          
                         <Card.Title id="cardTitle">Log in and start uploading</Card.Title>
                         <Card.Img variant="top" src={LoginImage} />
 
                         <hr style={{margin:"5px 20px"}}/>
 
                         <Card.Body>
-                            
+                                    
                             <Form>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
