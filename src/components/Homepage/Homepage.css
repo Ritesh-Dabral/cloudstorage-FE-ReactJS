@@ -2,45 +2,38 @@
 /*-------------- Homepage image gif ----------------*/
 
 .homePageImage{
-    border: solid 0.02rem #d4d412;
-    border-top: none;
-    border-left: none;
-    border-right: none;
     padding: 10px 5px;
     margin: auto;
-    width: 35%;
-    animation: widthDown 1s 1 forwards;
-
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .homePageImage:hover{
     border: solid 0.02rem turquoise;
-    padding: 0%;
     margin: auto;
-    width: 40%;
-    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-    animation: widthUp 1s 1 forwards;
+    animation: wobble 1.5s 1 forwards;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-@keyframes widthUp {
-    from {width: 35%}
-    to {width:40%}
-}
-@keyframes widthDown {
-    from {width: 40%}
-    to {width:35%}
-}
 
+@keyframes wobble {
+    0% { transform: translateX(0%); } 
+    15% { transform: translateX(-25%) rotate(-5deg); } 
+    30% { transform: translateX(20%) rotate(3deg); } 
+    45% { transform: translateX(-15%) rotate(-3deg); } 
+    60% { transform: translateX(10%) rotate(2deg); }
+    75% { transform: translateX(-5%) rotate(-1deg); }
+    100% { transform: translateX(0%); } 
+ } 
 
 /*----------- Top Dynamic Heaading --------------------*/
 #spanHeader{
-    color: rgb(255 118 0 / 66%);
+    color: rgb(247 247 247);
     background: border-box;
     font-style: italic;
     letter-spacing: 0;
     padding: 0 5px;
     border-radius: 5px;
-    background-color: bisque;
+    background-color: #17a2b8;
 }
 
 /*----------- Carousal --------------------*/
@@ -54,4 +47,104 @@
     margin: auto;
     width: 100%;
     padding: 20px;
+}
+
+.carousel-control-next,.carousel-control-prev  {
+    width: 40px;
+}
+.carousel-control-next:hover {
+    right: 0;
+    background-color: #00000070;
+    width: 40px;
+}
+.carousel-control-prev:hover {
+    left: 0;
+    background-color: #00000070;
+    width: 40px;
+}
+
+/*----------- Jumbotron Container starting --------------------*/
+
+#jumbotronContainer{
+    text-align: center;
+    font-family: Montserrat;
+    padding: 2rem;
+    background: white;
+}
+
+#dynamicHeader{
+    letter-spacing: 3px;
+    margin: 30px auto 5%;
+    line-height: 45px;
+    overflow-wrap: break-word;
+    color: rgb(4, 19, 99);
+}
+
+#whyKloudStorage{
+    text-align: center;
+    margin: 0 auto 1rem auto;
+    letter-spacing: 0.5px;
+    word-spacing: 5px;
+    font-size: xx-large;
+    color: #1f1f1f;
+    font-family: "Source Sans Pro";
+}
+
+/*----------- Navbar fix --------------------*/
+
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    width: 100%;
+}
+
+/*----------- Card fixing --------------------*/
+
+.cardCarousal{
+    width: 18rem;
+    margin: 5px auto;
+    text-align: center;
+    font-family: 'Texturina';
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+span#backDesign1 {
+    width: 50%;
+    height: 200px;
+    background: bisque;
+    display: block;
+    z-index: -3;
+    margin: 20px 0 0;
+    position: absolute;
+    left: 0;
+}
+span#backDesign2 {
+    width: 50%;
+    height: 150px;
+    background: #ff9800bf;
+    display: block;
+    z-index: -3;
+    margin: 250px 0 0 0;
+    position: absolute;
+    right: 0;
+}
+
+#showMore{
+    position: relative;
+    animation: showMoreAnimate 2s infinite;
+    cursor: pointer;
+    font-size: -webkit-xxx-large;
+    color: #17a2b8;
+}
+
+@keyframes showMoreAnimate{
+    0%   {top: 0px;}
+    25%  {top: 20px;}
+    50%  {top: 10px;}
+    75%  {top: 20px;}
+    100% {top: 0px;}
 }

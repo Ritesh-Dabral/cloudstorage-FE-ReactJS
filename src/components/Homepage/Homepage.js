@@ -1,8 +1,9 @@
 
  /* Module Imports */
   import React,{useEffect} from 'react'
-  import {Jumbotron,Button,Image,Carousel} from 'react-bootstrap'
+  import {Jumbotron,Button,Image,Carousel,Navbar,Card,Container} from 'react-bootstrap'
   import {Link} from 'react-router-dom'
+  import { CaretDownFill } from 'react-bootstrap-icons';
 
  /* Css and Image imports */
   import './Homepage.css'
@@ -22,6 +23,10 @@ function Homepage() {
         start = start+1;
     }
 
+    const showMore = ()=>{
+        document.getElementById('whyUsContainer').style.display = "block";
+    }
+
     useEffect(()=>{
         let startDynamicHeader = setInterval( showHeader, 2000);
         return () => {
@@ -31,10 +36,16 @@ function Homepage() {
 
     return (
         <>
-            <Jumbotron style={{textAlign:"center", fontFamily:"Montserrat"}}>
-                <h3 style={{letterSpacing:"3px"}}>Single destination for all your <span id="spanHeader">files</span></h3>
+            <Jumbotron id="jumbotronContainer">
+                <Navbar bg="info" fixed="top">
+                        <Navbar.Brand style={{color:"rgb(240, 243, 245)"}}>KloudStorage</Navbar.Brand>
+                </Navbar>
+                <h3 id="dynamicHeader">
+                    Single destination for all your 
+                    <span id="spanHeader">files</span>
+                </h3>
                 <Image src={CloudAnimation} fluid rounded className="homePageImage" />
-                <h1 style={{fontFamily:"Source Sans Pro"}}>Kloud Storage</h1>
+                <h1 style={{fontFamily:"Source Sans Pro",margin:"10px auto"}}>Kloud Storage</h1>
                 <p>
                     Need to store files and access them from anywhere?<br/>
                     Kloud Storage is the answer<br/>
@@ -43,42 +54,57 @@ function Homepage() {
                 <p>
                     <Button variant="success"><Link to="/login" style={{color: "#f0f3f5"}}>Join Us</Link></Button>
                 </p>
+                <CaretDownFill id="showMore" onClick={showMore}/>
             </Jumbotron>
 
-            <hr style={{margin: "0 5%"}}/>
+            <Container fluid style={{zIndex:-5, display:"none"}} id="whyUsContainer">
+                <h3 id="whyKloudStorage">Why choose us ?</h3>
+                <span id="backDesign1"></span>
+                <span id="backDesign2"></span>
+                <Carousel>
+                    <Carousel.Item interval={3000}>
+                        <Card className="cardCarousal">
+                            <Card.Img variant="top" src={FastImg} />
+                            <Card.Body>
+                                <Card.Title>Blazing fast speed</Card.Title>
+                                <Card.Text>
+                                    With the help of AWS services, KloudStorage is able to
+                                    provide you with very fast access to your files
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Carousel.Item>
+                    
+                    <Carousel.Item interval={3000}>
+                        <Card className="cardCarousal">
+                            <Card.Img variant="top" src={StorageImg} />
+                            <Card.Body>
+                                <Card.Title>Storage Worries You??</Card.Title>
+                                <Card.Text>
+                                KloudStorage allows you to store and acces your data
+                                from anywhere around the globe. Manage your uploads easily
+                                with our curated UI designs.
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Carousel.Item>
 
-            <Carousel>
-                <Carousel.Item>
-                    <Image src={FastImg} fluid rounded className="slideImage" 
-                    alt="First slide" 
-                    />
-                    <Carousel.Caption>
-                    <h3>First slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                
-                <Carousel.Item>
-                    <Image src={StorageImg} fluid rounded className="slideImage" 
-                    alt="Second slide" 
-                    />
-                    <Carousel.Caption>
-                    <h3>Second slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-
-                <Carousel.Item>
-                    <Image src={SafeImg} fluid rounded className="slideImage" 
-                    alt="Third slide" 
-                    />
-                    <Carousel.Caption>
-                    <h3>Third slide label</h3>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                
-            </Carousel>
+                    <Carousel.Item interval={3000}>
+                        <Card className="cardCarousal">
+                            <Card.Img variant="top" src={SafeImg} />
+                            <Card.Body>
+                                <Card.Title>Yes, safety first!!</Card.Title>
+                                <Card.Text>
+                                    Data safety and user privacy is our top most priority.
+                                    KloudStorage helps you store and retrieve your files securely
+                                    and easily.
+                                </Card.Text>
+                            </Card.Body>
+                        </Card>
+                    </Carousel.Item>
+                    
+                </Carousel>
+            </Container>
         </>
     )
 }
