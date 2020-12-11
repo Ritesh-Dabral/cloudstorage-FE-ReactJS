@@ -1,0 +1,20 @@
+
+/*  loading cloud component */
+#loadingCloudContainer{
+    position: fixed;
+    background-color: #37373a33;
+    height: 100%;
+    z-index: 10;
+    opacity: 1;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+#loadingCloudImg{
+    position: relative;
+    display: block;
+    width: 200px;
+    margin: auto;
+    height: auto;
+    top: 30%;
+}

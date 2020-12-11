@@ -1,0 +1,93 @@
+
+/*--------- Dashboard Container ----------*/
+#dashboardContainer {
+    width: 100%;
+    height: auto;
+    background: aqua;
+    overflow: hidden;
+    padding: 0;
+}
+
+/**----------------Pie Chart--------------------*/
+#pieChart{
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: pink;
+    margin: auto;
+    box-shadow: 0 4px 8px 0 rgb(53 34 199 / 21%), 0 6px 20px 0 rgb(27 139 202 / 39%);
+}
+
+/** Animate Profile and Storage cards **/
+#profileView,#storageView{
+    position:relative;
+    animation:animateTop 1.5s;
+}
+@keyframes animateTop{
+    from{top:-300px;opacity:0} 
+    to{top:0;opacity:1}
+}
+
+
+/*** Row UserInfoView **/
+
+.userInfoCards{
+    height: 9rem;
+    margin: 5px auto;
+    max-width: 18rem;
+    overflow-wrap: break-word;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#userProfilePic{
+    width: 4rem;
+    height: 4rem;
+    margin: 2px auto;
+}
+
+
+#storageDetails {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#freeLegend {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: lightblue;
+    margin: auto;
+}
+#usedLegend {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: pink;
+    margin: auto;
+}
+
+/*------------------- ROW (Main Content) -------------------*/
+#fileAlert{
+    z-index: 2;
+    margin: 1rem auto;
+    width: 96%;    
+}
+#filesView {
+    position: absolute;
+    margin: 1rem auto;
+    left: 2%;
+    width: 96%;
+    background: azure;
+    height: auto;
+}
+
+/***********ALL FILES COMPONENT***********************************/
+#myFilesCard {
+    margin: 5px auto;
+    padding: 20px;
+    overflow-wrap: break-word;
+    height: 380px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
