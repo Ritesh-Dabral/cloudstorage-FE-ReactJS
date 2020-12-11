@@ -25,6 +25,7 @@ function Homepage() {
 
     const showMore = ()=>{
         document.getElementById('whyUsContainer').style.display = "block";
+        document.getElementById( 'whyUsContainer' ).scrollIntoView();
     }
 
     useEffect(()=>{
@@ -69,7 +70,8 @@ function Homepage() {
                                 <Card.Title>Blazing fast speed</Card.Title>
                                 <Card.Text>
                                     With the help of AWS services, KloudStorage is able to
-                                    provide you with very fast access to your files
+                                    provide you with very fast access to your files. Get 
+                                    access within blink of an eye (not really XD)
                                 </Card.Text>
                             </Card.Body>
                         </Card>
@@ -81,7 +83,7 @@ function Homepage() {
                             <Card.Body>
                                 <Card.Title>Storage Worries You??</Card.Title>
                                 <Card.Text>
-                                KloudStorage allows you to store and acces your data
+                                KloudStorage allows you to store and access your data
                                 from anywhere around the globe. Manage your uploads easily
                                 with our curated UI designs.
                                 </Card.Text>
