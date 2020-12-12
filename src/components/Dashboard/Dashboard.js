@@ -1,8 +1,8 @@
  /* Module Imports */
   import React, { Component } from 'react'
-  import {Col,Row,Navbar,Jumbotron,Collapse} from 'react-bootstrap'
+  import {Col,Row,Navbar,Jumbotron,Tabs,Tab} from 'react-bootstrap'
   import {withRouter} from 'react-router-dom'
-  import {PersonSquare,PlusCircleFill} from 'react-bootstrap-icons'
+  import {PlusCircleFill} from 'react-bootstrap-icons'
 
  /* Css and Image imports */
  import './dashboard.css'
@@ -13,15 +13,15 @@
  import StoragePie from './StoragePie'
  import ProfileCard from './ProfileCard'
  import AllFiles from './AllFiles';
+import AddFiles from './AddFiles'
 
 
  const initialState = {
     username:'',
-    storage:0,
     profilePic:'',
     accessToken:'',
-    usedStorage:0,
     open:false,
+    refresh:false,
  }
 
 class Dashboard extends Component {
@@ -47,21 +47,14 @@ class Dashboard extends Component {
             return;
         }
 
-        let free = (user.storage/20);
 
         this.setState({
             ...this.state,
             username:user.username,
-            storage:user.storage,
             accessToken:user.token,
             profilePic:(user.profilePic)?(user.profilePic):process.env.REACT_APP_PROFILE_PIC,
-            usedStorage:free*100
+            refresh:true,
         })
-
-        // setting up pie chart
-        free=free*360;
-        let pieChart = document.getElementById('pieChart');
-        pieChart.style.backgroundImage = `conic-gradient(lightblue ${free}deg,pink 0)`;
     }
 
 
@@ -99,6 +92,14 @@ class Dashboard extends Component {
         })
     }
 
+    /**
+     * 
+     * @param {*} val : boolean to set whether allFiles component should update 
+     */
+    shouldAllFilesRefresh = (val=false)=>{
+        this.setState({...this.state,refresh:val});
+    }
+
     render() {
         return (
             <Jumbotron fluid id="dashboardContainer">
@@ -108,30 +109,47 @@ class Dashboard extends Component {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         <PlusCircleFill/>
-                        <PersonSquare
-                            onClick={() => this.setState({...this.state,open: !this['state']['open']})}
-                            style={{cursor:"pointer"}}
-                        />
+
                     </Navbar.Collapse>
                 </Navbar>
 
-                <Collapse in={this.state.open}>
-                    <Row style={{padding: "5px 3px"}}>
-                        <Col id="profileView" xs={12} sm={6} md={6}>
-                            <ProfileCard 
-                            profilePicSrc={this.state.profilePic} 
-                            username={this.state.username}
-                            />
-                        </Col>
-                        <Col id="storageView" xs={12} sm={6} md={6}>
-                            <StoragePie storage={this.state.usedStorage}/>
-                        </Col>
-                    </Row>
-                </Collapse>
 
-                <div id="fileViewContainer">
-                    <AllFiles accessToken={this.state.accessToken}/>
-                </div>
+
+
+                <Tabs defaultActiveKey="allfiles">
+
+                    <Tab eventKey="allfiles" title="My Files" >
+                        <div id="fileViewContainer">
+                            <AllFiles accessToken={this.state.accessToken} show={this.state.refresh} 
+                            />
+                        </div>
+                    </Tab>
+
+                    <Tab eventKey="addfiles" title="Add" id="addFilesTab">
+                        <Row id="userFilesAdd" style={{backgroundColor:"#2d68bf85"}}>
+                            <AddFiles 
+                                refreshFilesFunc={this.shouldAllFilesRefresh} 
+                                accessToken={this.state.accessToken}
+                                currShowAllFiles={this.state.refresh}
+                            />
+                        </Row>
+                    </Tab>
+
+                    <Tab eventKey="viewprofile" title="Profile" id="viewProfileTab">    
+                        <Row id="userProfile">
+                            <Col id="profileView" xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <ProfileCard 
+                                    profilePicSrc={this.state.profilePic} 
+                                    username={this.state.username}
+                                />
+                            </Col>
+                            <Col id="storageView" xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <StoragePie accessToken={this.state.accessToken} show={this.state.refresh}/>
+                            </Col>
+                        </Row>
+                    </Tab>
+                </Tabs>
+
 
             </Jumbotron>
         )

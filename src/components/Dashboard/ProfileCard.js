@@ -3,7 +3,7 @@ import {Card} from 'react-bootstrap'
 
 function ProfileCard({profilePicSrc,username}) {
     return (
-        <Card className="userInfoCards">
+        <Card className="userInfoCards" style={{height:'13rem'}}>
             <Card.Img variant="top" src={profilePicSrc} 
                 id="userProfilePic"
             />

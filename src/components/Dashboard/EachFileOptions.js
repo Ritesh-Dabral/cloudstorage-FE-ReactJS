@@ -1,17 +1,25 @@
  /* Utility Modules*/
- import React,{useState,useEffect} from 'react'
+ import React from 'react'
  import {Dropdown} from 'react-bootstrap'
- import {ThreeDotsVertical} from 'react-bootstrap-icons'
 
 /* Components */
- import Loading from '../AdditionalComponents/Loading';
 
 /*extra import*/
 
-function EachFileOptions() {
+function EachFileOptions({fileKey}) {
     return (
         <div className="fileOptions">
-            <ThreeDotsVertical style={{cursor:'pointer'}}/>
+
+            <Dropdown>
+                <Dropdown.Toggle variant="info">
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu show={false}>
+                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         </div>
     )
 }

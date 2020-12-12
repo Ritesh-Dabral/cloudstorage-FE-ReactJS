@@ -27,6 +27,15 @@ class Signup extends Component {
        }
    }
 
+   componentDidMount(){
+        let localStorageName = process.env.REACT_APP_LOCAL_NAME;
+        let user = JSON.parse(localStorage.getItem(localStorageName));
+        if(user){
+            this.props.history.push('/dashboard');
+            return;
+        }
+    }
+
    /**
     * 
     * @param {*} e : current input within form 
@@ -70,7 +79,6 @@ class Signup extends Component {
                const userObj={
                 token:response.data.token,
                 username:response.data.user.username,
-                storage:response.data.user.storage,
                 profilePic:response.data.user.profile_image
                }
 
