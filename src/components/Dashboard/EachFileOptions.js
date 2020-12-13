@@ -1,25 +1,143 @@
  /* Utility Modules*/
- import React from 'react'
- import {Dropdown} from 'react-bootstrap'
+  import React,{useState} from 'react'
+  import {DropdownButton,Dropdown} from 'react-bootstrap'
+  import axios from 'axios'
+  import fs from 'fs'
 
-/* Components */
+
+ /* Components */
+  import Loading from '../AdditionalComponents/Loading';
+
 
 /*extra import*/
 
-function EachFileOptions({fileKey}) {
+function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currShowAllFiles,refreshFilesFunc}) {
+
+    const [loading,setLoading]     = useState(false);
+
+
+    /**
+     * On or Off Sharable mode
+     */
+    const toggleSharable = ()=>{
+        const URL_PREFIX = process.env.REACT_APP_SERVER_URL_PREFIX;
+        const URL = `${URL_PREFIX}/files/shareable`;
+
+        let obj ={
+            fileKey,
+            sharable: (ACL==='private')?(true):(false)
+        }
+        
+        setLoading(true);
+        // start loading
+        axios.post(URL,obj,{headers:{authorization: `Token ${accessToken}`}})
+            .then(response=>{
+                if(response.data.data==='Private Access Only'){
+                    setURL(fileId,'');
+                }
+                else{
+                    setURL(fileId,response.data.data);
+                }
+
+                setLoading(false);
+                refreshFilesFunc(!currShowAllFiles);
+            })
+            .catch(error=>{
+                const errMsg = error.response ? (error.response.data.errors.message):('Unknown Error Occured');
+                sendResMsg(errMsg,'danger');
+                setLoading(false);
+            })
+    }
+
+
+    /**
+     * Initialize download
+     */
+    const handleDownloadRequest = ()=>{
+
+        const URL_PREFIX = process.env.REACT_APP_SERVER_URL_PREFIX;
+        const URL = `${URL_PREFIX}/files/download`;
+
+        setLoading(true);
+        // start loading
+ 
+        let fileId = fileKey.split('/')[0];
+        let newFileKey = fileKey.split('/')[1];
+        axios.post(URL,{"fileId":fileId,"fileKey":newFileKey},{
+            headers:{
+                authorization: `Token ${accessToken}`
+            },
+            responseType:'blob'
+        })
+            .then(response=>{
+                const data = response.data;
+                const url = window.URL.createObjectURL(new Blob([data]));
+                const link = document.createElement('a');
+                link.href = url;
+                let file = fileKey.split('/');
+                let newName = '';
+                for(let i=1;i<file.length;i++){
+                    newName+=file[i];
+                }
+                file = file.join(' ');
+                let ext = file[file.length-1];
+
+                link.setAttribute('download', `${newName}.${ext}`);
+                document.body.appendChild(link);
+                link.click();
+
+                setLoading(false);
+            })
+            .catch(error=>{
+                const errMsg = error.response.data.errors ? (error.response.data.errors.message):('Unknown Error Occured');
+                sendResMsg(errMsg,'danger');
+                setLoading(false);
+            })
+    }
+
+    /**
+     * handles file deletion
+     */
+    const handleDeleteRequest = ()=>{
+        const URL_PREFIX = process.env.REACT_APP_SERVER_URL_PREFIX;
+        const URL = `${URL_PREFIX}/files/delete`;
+
+        // loading starts
+        setLoading(true);
+
+        axios.post(URL,{"fileKey":fileKey},{
+            headers:{
+                authorization: `Token ${accessToken}`
+            }
+        })
+            .then(response=>{
+
+                sendResMsg(response.data.msg,'info');
+                setLoading(false);
+                refreshFilesFunc(!currShowAllFiles);
+            })
+            .catch(error=>{
+                const errMsg = error.response ? (error.response.data.errors.message):('Unknown Error Occured');
+                sendResMsg(errMsg,'danger');
+                setLoading(false);
+            })
+
+    }
+
     return (
         <div className="fileOptions">
+            <Loading show={loading}/>
 
-            <Dropdown>
-                <Dropdown.Toggle variant="info">
-                </Dropdown.Toggle>
+            <DropdownButton title='' variant="warning">
+                    <Dropdown.Item onClick={toggleSharable}>
+                        {
+                            (ACL!=='private')?('Make private'):('Make public')
+                        }
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleDownloadRequest}>Download</Dropdown.Item>
+                    <Dropdown.Item onClick={handleDeleteRequest}>Delete</Dropdown.Item>
+            </DropdownButton>
 
-                <Dropdown.Menu show={false}>
-                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
         </div>
     )
 }

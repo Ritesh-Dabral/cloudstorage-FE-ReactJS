@@ -2,7 +2,6 @@
   import React,{useState,useEffect} from 'react'
   import {Jumbotron,Alert,Card,Col,Row} from 'react-bootstrap'
   import axios from 'axios'
-  import {useHistory} from 'react-router-dom'
 
 
  /* Components */
@@ -17,9 +16,8 @@
   import VideoType from '../../assets/images/allFiles/video.jpg'
   import AddFiles from '../../assets/images/allFiles/add.jpg'
 
-function AllFiles({accessToken,show}) {
+function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
 
-    const history                          = useHistory();
     const [myFiles,setMyFiles]             = useState([]);
     const [utilityStates,setUtilityStates] = useState({
         alert:'',
@@ -29,6 +27,9 @@ function AllFiles({accessToken,show}) {
     const [loading,setLoading]              = useState(false);
 
 
+    /**
+     * Get all the files
+     */
     const fetchFiles=()=>{
         if(accessToken==='')
             return;
@@ -63,6 +64,11 @@ function AllFiles({accessToken,show}) {
     },[show])
 
 
+    /**
+     * 
+     * @param {*} contentType : type of content 
+     * 
+     */
     const checkMimeType = (contentType)=>{
         var type = contentType.split('/')[0];
         var subType = contentType.split('/')[1];
@@ -82,6 +88,14 @@ function AllFiles({accessToken,show}) {
                 return ApplicationType
         }
             
+    }
+
+    const showEachFileMessage = (alertMsg,variantType)=>{
+        setUtilityStates({alert:alertMsg,variant:variantType});
+    } 
+
+    const setURL = (eleID='',URL='')=>{
+        document.getElementById(`${eleID}`).value = URL;
     }
 
     return (
@@ -105,14 +119,32 @@ function AllFiles({accessToken,show}) {
                         return (
                         <Col key={file._id} xs={8} sm={6} md={6} lg={4} xl={3} id="colCards" style={{margin:"auto"}}>
                             
-                            <Card id="myFilesCard">
-                                <div id="moreOptionsBtn"><EachFileOptions fileKey={file.fileKey}/></div>
+                            <Card className="myFilesCard">
+                                <div id="moreOptionsBtn">
+                                    <EachFileOptions 
+                                        fileKey={file.fileKey}
+                                        ACL={file.ACL}
+                                        accessToken={accessToken}
+                                        sendResMsg={showEachFileMessage}
+                                        setURL={setURL}
+                                        fileId={file._id}
+                                        refreshFilesFunc={refreshFilesFunc}
+                                        currShowAllFiles={currShowAllFiles}
+                                    />
+                                </div>
                                 <Card.Img variant="top" src={checkMimeType(file.contentType)} 
-                                    style={{width:'200px',margin:'5px auto'}}
+                                    style={{width:'160px',margin:'0 auto'}}
                                 />
-                                <Card.Body>
-                                    <Card.Title>{file.originalname}</Card.Title>
+                                <Card.Body style={{margin:'2px auto',padding:'0%'}}>
+                                    <Card.Title className="cardTitle">{file.originalname}</Card.Title>
                                 </Card.Body>
+                                <input 
+                                    id={file._id} 
+                                    style={{marginTop:"10px",scrollBehavior:"smooth",overflowX:"scroll"}}
+                                    value={(file.ACL==='private')?('URL Private'):(file.url)}
+                                    readOnly
+                                    className="cardURLInputField"
+                                />
                             </Card>
 
                         </Col>)

@@ -42,7 +42,7 @@ export default function StoragePie({accessToken,show}) {
                 setLoading(false);
 
                 let pieChart = document.getElementById('pieChart');
-                pieChart.style.backgroundImage = `conic-gradient(lightblue ${freestorage}deg,pink 0)`;
+                pieChart.style.backgroundImage = `conic-gradient(lightblue ${(freestorage/20)*360}deg,pink 0)`;
             })
             .catch(error=>{
                 const errMsg = error.response ? (error.response.data.errors.message):('Unknown Error Occured');
@@ -81,10 +81,10 @@ export default function StoragePie({accessToken,show}) {
             <Card.Body>
                 <div id="storageDetails">
                     <p>
-                        <span id="freeLegend"></span>Free {freestorage.toFixed(2)}%
+                        <span id="freeLegend"></span>Free {(freestorage/20*100).toFixed(2)}%
                     </p>
                     <p>
-                        <span id="usedLegend"></span>Used {(100-freestorage).toFixed(2)}%
+                        <span id="usedLegend"></span>Used {(100-(freestorage/20*100)).toFixed(2)}%
                     </p>
                 </div>
             </Card.Body>

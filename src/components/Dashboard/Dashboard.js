@@ -2,7 +2,7 @@
   import React, { Component } from 'react'
   import {Col,Row,Navbar,Jumbotron,Tabs,Tab} from 'react-bootstrap'
   import {withRouter} from 'react-router-dom'
-  import {PlusCircleFill} from 'react-bootstrap-icons'
+  import {Power} from 'react-bootstrap-icons'
 
  /* Css and Image imports */
  import './dashboard.css'
@@ -26,12 +26,14 @@ import AddFiles from './AddFiles'
 
 class Dashboard extends Component {
 
+
     constructor(){
         super();
         this.state={
             ...initialState
         }
     }
+
 
     /**
      * As soon as the component loads, put the 
@@ -59,6 +61,7 @@ class Dashboard extends Component {
 
 
 
+
     /**
      * 
      * @param {*} variantType : variant type (primary,warn,success...etc)
@@ -83,6 +86,8 @@ class Dashboard extends Component {
             })           
         }
     }
+
+
     /**
      * When the user will logout or anything as such, then this will be used
      */
@@ -92,6 +97,7 @@ class Dashboard extends Component {
         })
     }
 
+
     /**
      * 
      * @param {*} val : boolean to set whether allFiles component should update 
@@ -99,6 +105,13 @@ class Dashboard extends Component {
     shouldAllFilesRefresh = (val=false)=>{
         this.setState({...this.state,refresh:val});
     }
+
+
+    handleLogout = ()=>{
+        localStorage.clear();
+        this.props.history.push('/');
+    }
+
 
     render() {
         return (
@@ -108,7 +121,7 @@ class Dashboard extends Component {
                     <Navbar.Brand>KloudStorage</Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
-                        <PlusCircleFill/>
+                        <Power id="logoutBtn" onClick={this.handleLogout}/>
 
                     </Navbar.Collapse>
                 </Navbar>
@@ -120,7 +133,11 @@ class Dashboard extends Component {
 
                     <Tab eventKey="allfiles" title="My Files" >
                         <div id="fileViewContainer">
-                            <AllFiles accessToken={this.state.accessToken} show={this.state.refresh} 
+                            <AllFiles 
+                                accessToken={this.state.accessToken} 
+                                show={this.state.refresh} 
+                                refreshFilesFunc={this.shouldAllFilesRefresh} 
+                                currShowAllFiles={this.state.refresh}
                             />
                         </div>
                     </Tab>
@@ -129,8 +146,8 @@ class Dashboard extends Component {
                         <Row id="userFilesAdd" style={{backgroundColor:"#2d68bf85"}}>
                             <AddFiles 
                                 refreshFilesFunc={this.shouldAllFilesRefresh} 
-                                accessToken={this.state.accessToken}
                                 currShowAllFiles={this.state.refresh}
+                                accessToken={this.state.accessToken}
                             />
                         </Row>
                     </Tab>

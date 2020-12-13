@@ -8,6 +8,32 @@
     font-family: 'Texturina';
 }
 
+#logoutBtn {
+    font-size: xx-large;
+    color: white;
+    background: #ffc107;
+    border: solid 0.02rem white;
+    border-radius: 5px;
+    padding: 2px;
+    cursor: pointer;
+    animation:  deAnimateBtnLetter 0.3s forwards;
+}
+
+#logoutBtn:hover{
+    animation:  animateBtnLetter 0.3s forwards;
+}
+
+
+@keyframes animateBtnLetter{
+    from{width:100px} 
+    to{width:120px}
+}
+@keyframes deAnimateBtnLetter{
+    from{width:120px} 
+    to{width:100px}
+}
+
+
 #userProfile {
     padding: 5px 3px;
     position: absolute;
@@ -123,7 +149,7 @@
 }
 
 /***********ALL FILES COMPONENT***********************************/
-#myFilesCard {
+.myFilesCard {
     width: 18rem;
     text-align:center;
     margin: 5px auto;
@@ -134,7 +160,7 @@
     opacity:1;
     animation: animateZoom 1s forwards;
 }
-#myFilesCard:hover{
+.myFilesCard:hover{
     box-shadow: 0 4px 8px 0 rgb(0 0 0), 0 6px 20px 0 rgb(0 0 0);
     z-index: 10;
 }
@@ -142,6 +168,16 @@
 #noFilesFound{
     width: 18rem;
     margin: 1rem auto;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation: animateZoom 1s;
+}
+
+.cardTitle {
+    width: 100%;
+    overflow-wrap: anywhere;
+    height: 4rem;
+    margin: auto;
     text-align: center;
 }
 
@@ -200,4 +236,5 @@ svg#fileUploadBtn {
     animation: wobble 1s;
     border-color: aqua
 }
+
 
