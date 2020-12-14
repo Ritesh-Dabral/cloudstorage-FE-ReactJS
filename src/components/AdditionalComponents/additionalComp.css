@@ -18,3 +18,18 @@
     height: auto;
     top: 30%;
 }
+
+/***** FOOTER *********/
+footer {
+    margin: 2rem auto 0 auto;
+    height: auto;
+    min-height: 3rem;
+    background: #17a2b8;
+    padding: 20px;
+    width: 100%;
+    text-align: center;
+    font-family: 'Texturina';
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}

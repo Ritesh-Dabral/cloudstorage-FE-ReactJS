@@ -1,17 +1,95 @@
 
-/*--------- Dashboard Container ----------*/
+/*--------- Dashboard ----------*/
 #dashboardContainer {
     width: 100%;
     height: auto;
-    background: aqua;
     overflow: hidden;
     padding: 0;
+    font-family: 'Texturina';
+    
+    background: #1FA2FF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom right, #F09819, #EDDE5D);  
+    background: linear-gradient(to bottom right, #F09819, #EDDE5D); 
+
+}
+
+#logoutBtn {
+    font-size: xx-large;
+    color: #ffffff;
+    background: #56e5a5bd;
+    border: solid 0.02rem #595959;
+    border-radius: 5px;
+    padding: 6px;
+    cursor: pointer;
+    animation: deAnimateLgoutBtnLetter 0.3s forwards;
+    margin: 5px;
+}
+
+#logoutBtn:hover{
+    animation:  animateLgoutBtnLetter 0.3s forwards;
+}
+
+
+@keyframes animateLgoutBtnLetter{
+    from{width:40px} 
+    to{width:60px}
+}
+@keyframes deAnimateLgoutBtnLetter{
+    from{width:60px} 
+    to{width:40px}
+}
+
+
+#userProfile {
+    padding: 5px 3px;
+    position: absolute;
+    margin: 1rem auto;
+    width: 96%;
+    height: auto;
+    min-height: 100%;
+    /* background: #5cb5b566; */
+    left: 1%;
+    right: 1%;
+    border-radius: 5px;
+
+    background: #FC354C;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom right, #eabf31,#c3f10c7a);  
+    background: linear-gradient(to bottom right, #eabf31,#c3f10c7a); 
+
+}
+
+#userFilesAdd {
+    padding: 5px 3px;
+    position: absolute;
+    margin: 1rem auto;
+    width: 96%;
+    min-height: 100%;
+    height: auto;
+    left: 1%;
+    right: 1%;
+    overflow: auto;
+    border-radius: 5px;
+
+    background-color: rgba(45, 104, 191, 0.52);
+    background: -webkit-linear-gradient(to bottom right, #eabf31,#c3f10c7a);  
+    background: linear-gradient(to bottom right, #eabf31,#c3f10c7a); 
+
+}
+
+.nav-tabs {
+    background: none;
+}
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: #000000a6;
 }
 
 /**----------------Pie Chart--------------------*/
 #pieChart{
-    width: 4rem;
-    height: 4rem;
+    width: 8rem;
+    height: 8rem;
     border-radius: 50%;
     background-color: pink;
     margin: auto;
@@ -21,18 +99,19 @@
 /** Animate Profile and Storage cards **/
 #profileView,#storageView{
     position:relative;
-    animation:animateTop 1.5s;
+    animation:animateZoom 1s;
 }
-@keyframes animateTop{
-    from{top:-300px;opacity:0} 
-    to{top:0;opacity:1}
+
+@keyframes animateZoom{
+    from{transform:scale(0)}
+    to{transform:scale(1)}
 }
 
 
 /*** Row UserInfoView **/
 
 .userInfoCards{
-    height: 9rem;
+    height: 15rem;
     margin: 5px auto;
     max-width: 18rem;
     overflow-wrap: break-word;
@@ -40,9 +119,9 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#userProfilePic{
-    width: 4rem;
-    height: 4rem;
+#userProfilePic {
+    width: 8rem;
+    height: 8rem;
     margin: 2px auto;
 }
 
@@ -78,16 +157,100 @@
     margin: 1rem auto;
     left: 2%;
     width: 96%;
-    background: azure;
     height: auto;
+    background: #258282;
+
+    background: -webkit-linear-gradient(to bottom right, #eabf31,#c3f10c7a);  
+    background: linear-gradient(to bottom right, #eabf31,#c3f10c7a); 
 }
 
 /***********ALL FILES COMPONENT***********************************/
-#myFilesCard {
+.myFilesCard {
+    width: 18rem;
+    text-align:center;
     margin: 5px auto;
     padding: 20px;
     overflow-wrap: break-word;
     height: 380px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    opacity:1;
+    animation: animateZoom 1s forwards;
+}
+.myFilesCard:hover{
+    box-shadow: 0 4px 8px 0 rgb(0 0 0), 0 6px 20px 0 rgb(0 0 0);
+    z-index: 10;
+}
+
+#noFilesFound{
+    width: 18rem;
+    margin: 1rem auto;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    animation: animateZoom 1s;
+}
+
+.cardTitle {
+    width: 100%;
+    overflow-wrap: anywhere;
+    height: 4rem;
+    margin: auto;
+    text-align: center;
+}
+
+/***********EACH FILE OPTIONS**************************************/
+#moreOptionsBtn{
+    text-align: end;
+    margin: 2px 10px 2px 0;
+}
+
+/*********** ADD FILES ********************************************/
+#uploadForm {
+    margin: 2rem auto;
+    width: 90%;
+    padding: 5px;
+    text-align: center;
+}
+
+.uploadFileDetCard {
+    width: 70%;
+    text-align: center;
+    padding: 20px;
+    animation:animateZoom 1s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
+
+#chooseFileBtn {
+    width: 50%;
+    padding: 20px;
+    border-radius: 5px;
+    background: #31ca1561;
+    font-family: monospace;
+    font-size: larger;
+    color: blueviolet;
+    font-weight: bolder;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+div#fileUploadBtnContainer {
+    margin: 1rem auto;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    font-size: xxx-large;
+}
+
+svg#fileUploadBtn {
+    font-size: 5rem;
+    padding: inherit;
+    border-radius: 5%;
+    color: azure;
+    background: #bd379aa8;
+}
+
+#fileUploadBtn:hover{
+    animation: wobble 1s;
+    border-color: aqua
+}
+
+

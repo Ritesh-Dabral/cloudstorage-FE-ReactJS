@@ -1,8 +1,8 @@
  /* Utility Modules*/
   import React,{useState,useEffect} from 'react'
-  import {Jumbotron,Alert,Card,Col,Table,Row} from 'react-bootstrap'
+  import {Jumbotron,Alert,Card,Col,Row} from 'react-bootstrap'
   import axios from 'axios'
-  import {ThreeDotsVertical} from 'react-bootstrap-icons'
+
 
  /* Components */
   import Loading from '../AdditionalComponents/Loading';
@@ -14,18 +14,19 @@
   import DocumentType from '../../assets/images/allFiles/document.jpg'
   import ImageType from '../../assets/images/allFiles/image.jpg'
   import VideoType from '../../assets/images/allFiles/video.jpg'
+  import AddFiles from '../../assets/images/allFiles/add.jpg'
 
-function AllFiles({accessToken}) {
+function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
 
     const [myFiles,setMyFiles]             = useState([]);
-    const [utilityStates,setUtilityStates] = useState({
-        alert:'',
-        variant:'light',
-        showAlert:false
-    })
-    const [loading,setLoading]              = useState(false);
+    const [utilityStates,setUtilityStates] = useState({alert:'',variant:'light',showAlert:false})
+    const [childStates,setchildStates]     = useState({alert:'',variant:'light',showAlert:false})
+    const [loading,setLoading]             = useState(false);
 
 
+    /**
+     * Get all the files
+     */
     const fetchFiles=()=>{
         if(accessToken==='')
             return;
@@ -34,10 +35,10 @@ function AllFiles({accessToken}) {
 
         const url = `${process.env.REACT_APP_SERVER_URL_PREFIX}/files/allfiles`;
 
+
         // fetch files
         axios.get(url,{headers:{authorization: `Token ${accessToken}`}})
             .then(response=>{
-                console.log(response.data);
                 setMyFiles([...response.data.files]);
                 setUtilityStates({alert:response.data.message,variant:'success'});
                 setLoading(false);
@@ -57,11 +58,17 @@ function AllFiles({accessToken}) {
      */
     useEffect(()=>{
         fetchFiles();
-    },[accessToken])
+    },[show])
 
 
+    /**
+     * 
+     * @param {*} contentType : type of content 
+     * 
+     */
     const checkMimeType = (contentType)=>{
         var type = contentType.split('/')[0];
+        var subType = contentType.split('/')[1];
 
         if(type==='image')
             return ImageType;
@@ -71,10 +78,58 @@ function AllFiles({accessToken}) {
             return AudioType;
         else if(type==='video')
             return VideoType;
-        else
-            return ApplicationType;
+        else{
+            if(subType==='pdf'||subType==='json'||subType==='csv'||subType.includes('word'))
+                return DocumentType;
+            else
+                return ApplicationType
+        }
+            
     }
 
+    /**
+     * 
+     * Show alerts from child components
+     * 
+     * @param {*} alertMsg 
+     * @param {*} variantType 
+     */
+    const showEachFileMessage = (alertMsg,variantType)=>{
+        setchildStates({alert:alertMsg,variant:variantType});
+    } 
+
+    /**
+     * Add URL to input fields
+     * 
+     * @param {*} eleID : unique input field id based on fileKey
+     * @param {*} URL 
+     */
+    const setURL = (eleID='',URL='')=>{
+        document.getElementById(`${eleID}`).value = URL;
+    }
+
+
+    /**
+     * Copy to clipboard
+     * 
+     * @param {*} e : input field of a card
+     */
+    const handleCopyToClipboard = (e)=>{
+        e.target.select();
+        e.target.setSelectionRange(0,99999);
+        document.execCommand('copy');
+
+        let oldVal = e.target.value;
+
+        e.target.value = 'Copied to clipboard!!';
+
+        setTimeout(()=>{
+            e.target.value = oldVal;
+        },2000);
+    }
+
+
+    
     return (
         <Jumbotron id="filesView">
             <Loading show={loading}/>
@@ -84,9 +139,21 @@ function AllFiles({accessToken}) {
                 id="fileAlert"
                 show={utilityStates.showAlert}
                 onClose={() => setUtilityStates({showAlert:false})} 
+                style={{textAlign:'center'}}
                 dismissible
             >
                 {utilityStates.alert}
+            </Alert>
+
+            <Alert 
+                variant={childStates.variant} 
+                id="fileAlert"
+                show={childStates.showAlert}
+                onClose={() => setchildStates({showAlert:false})} 
+                style={{textAlign:'center'}}
+                dismissible
+            >
+                {childStates.alert}
             </Alert>
 
             <Row>
@@ -95,39 +162,48 @@ function AllFiles({accessToken}) {
                     myFiles.map(file=>{
                         return (
                         <Col key={file._id} xs={8} sm={6} md={6} lg={4} xl={3} id="colCards" style={{margin:"auto"}}>
-                            <Card style={{ width: '18rem',textAlign:'center' }} id="myFilesCard">
-                                <div id="moreOptionsBtn" 
-                                    style={{textAlign:"end",margin:"2px 10px 2px 0"}}
-                                >
-                                    <EachFileOptions />
+                            
+                            <Card className="myFilesCard">
+                                <div id="moreOptionsBtn">
+                                    <EachFileOptions 
+                                        fileKey={file.fileKey}
+                                        ACL={file.ACL}
+                                        accessToken={accessToken}
+                                        sendResMsg={showEachFileMessage}
+                                        setURL={setURL}
+                                        fileId={file._id}
+                                        refreshFilesFunc={refreshFilesFunc}
+                                        currShowAllFiles={currShowAllFiles}
+                                    />
                                 </div>
                                 <Card.Img variant="top" src={checkMimeType(file.contentType)} 
-                                    style={{width:'200px',margin:'5px auto'}}
+                                    style={{width:'160px',margin:'0 auto'}}
                                 />
-                                <Card.Body>
-                                    <Card.Title>{file.originalname}</Card.Title>
-                                    {/* <Table striped bordered hover size="sm">
-                                        <tbody>
-                                            <tr>
-                                                <td>Size</td>
-                                                <td>{file.size}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Content Type</td>
-                                                <td>{file.contentType}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Visibility</td>
-                                                <td>{file.ACL}</td>
-                                            </tr>
-                                        </tbody>
-                                    </Table> */}
+                                <Card.Body style={{margin:'2px auto',padding:'0%'}}>
+                                    <Card.Title className="cardTitle">{file.originalname}</Card.Title>
                                 </Card.Body>
+                                <input 
+                                    id={file._id} 
+                                    style={{marginTop:"10px",scrollBehavior:"smooth",overflowX:"scroll"}}
+                                    value={(file.ACL==='private')?('URL Private'):(file.url)}
+                                    readOnly
+                                    className="cardURLInputField"
+                                    onClick = {handleCopyToClipboard}
+                                />
                             </Card>
+
                         </Col>)
                     })
                 ):(
-                    <span>Add Files</span>
+                    <Card id="noFilesFound">
+                        <Card.Img variant="top" src={AddFiles} />
+                        <Card.Body>
+                            <Card.Title>Add Files</Card.Title>
+                            <Card.Text>
+                                Add files to view them
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
                 )
             }
             </Row>

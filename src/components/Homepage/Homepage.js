@@ -2,7 +2,7 @@
  /* Module Imports */
   import React,{useEffect} from 'react'
   import {Jumbotron,Button,Image,Carousel,Navbar,Card,Container} from 'react-bootstrap'
-  import {Link} from 'react-router-dom'
+  import {Link,useHistory} from 'react-router-dom'
   import { CaretDownFill } from 'react-bootstrap-icons';
 
  /* Css and Image imports */
@@ -12,9 +12,13 @@
   import SafeImg from '../../assets/images/safe.jpg'
   import StorageImg from '../../assets/images/storage.jpg'
 
+  /* footer */
+  import Footer from '../AdditionalComponents/Footer';
+
 function Homepage() {
 
     let start = 0;
+    const history = useHistory();
     const headerTag = ['uploads','management','downloads','files'];
     
     function showHeader() {
@@ -30,10 +34,20 @@ function Homepage() {
 
     useEffect(()=>{
         let startDynamicHeader = setInterval( showHeader, 2000);
+
+        let localStorageName = process.env.REACT_APP_LOCAL_NAME;
+        let user = JSON.parse(localStorage.getItem(localStorageName));
+        if(user){
+            history.push('/dashboard');
+            return () => {
+                clearInterval(startDynamicHeader);
+            }
+        }
+        
         return () => {
             clearInterval(startDynamicHeader);
         }
-    },[])
+    })
 
     return (
         <>
@@ -106,6 +120,10 @@ function Homepage() {
                     </Carousel.Item>
                     
                 </Carousel>
+            </Container>
+
+            <Container fluid style={{padding:'0%',margin:'0%',width:'100%'}}>
+                <Footer />
             </Container>
         </>
     )

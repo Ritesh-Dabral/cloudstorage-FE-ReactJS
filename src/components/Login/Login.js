@@ -26,6 +26,16 @@ class Login extends Component {
         }
     }
 
+
+    componentDidMount(){
+        let localStorageName = process.env.REACT_APP_LOCAL_NAME;
+        let user = JSON.parse(localStorage.getItem(localStorageName));
+        if(user){
+            this.props.history.push('/dashboard');
+            return;
+        }
+    }
+
     /**
      * 
      * @param {*} e : current input within form 
@@ -70,8 +80,8 @@ class Login extends Component {
                 const userObj={
                     token:response.data.token,
                     username:response.data.user.username,
-                    storage:response.data.user.storage,
-                    profilePic:response.data.user.profile_image
+                    profilePic:response.data.user.profile_image,
+                    verified:response.data.user.verified
                 }
 
                 let localStorageName = process.env.REACT_APP_LOCAL_NAME
