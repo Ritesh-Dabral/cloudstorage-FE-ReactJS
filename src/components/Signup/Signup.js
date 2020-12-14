@@ -76,11 +76,13 @@ class Signup extends Component {
 
        axios.post(URL,{email,password,username})
            .then(response=>{
-               const userObj={
-                token:response.data.token,
-                username:response.data.user.username,
-                profilePic:response.data.user.profile_image
-               }
+
+                const userObj={
+                    token:response.data.token,
+                    username:response.data.user.username,
+                    profilePic:response.data.user.profile_image,
+                    verified:response.data.user.verified
+                }
 
                let localStorageName = process.env.REACT_APP_LOCAL_NAME;
                localStorage.setItem(localStorageName,JSON.stringify(userObj));

@@ -2,7 +2,6 @@
   import React,{useState} from 'react'
   import {DropdownButton,Dropdown} from 'react-bootstrap'
   import axios from 'axios'
-  import fs from 'fs'
 
 
  /* Components */
@@ -38,6 +37,12 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
                 else{
                     setURL(fileId,response.data.data);
                 }
+
+                let succmsg = `${fileKey} made `;
+                let made = (ACL==='private')?('public'):('private');
+                succmsg = succmsg + made;
+
+                sendResMsg(succmsg,'info');
 
                 setLoading(false);
                 refreshFilesFunc(!currShowAllFiles);
@@ -87,6 +92,9 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
                 link.click();
 
                 setLoading(false);
+
+                sendResMsg(`Download request ${fileKey}`,'info');
+
             })
             .catch(error=>{
                 const errMsg = error.response.data.errors ? (error.response.data.errors.message):('Unknown Error Occured');
@@ -94,6 +102,7 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
                 setLoading(false);
             })
     }
+
 
     /**
      * handles file deletion
@@ -111,8 +120,7 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
             }
         })
             .then(response=>{
-
-                sendResMsg(response.data.msg,'info');
+                sendResMsg(`${fileKey} ${response.data.msg}`,'warning');
                 setLoading(false);
                 refreshFilesFunc(!currShowAllFiles);
             })

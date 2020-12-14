@@ -13,7 +13,7 @@
  import StoragePie from './StoragePie'
  import ProfileCard from './ProfileCard'
  import AllFiles from './AllFiles';
-import AddFiles from './AddFiles'
+ import AddFiles from './AddFiles'
 
 
  const initialState = {
@@ -22,6 +22,7 @@ import AddFiles from './AddFiles'
     accessToken:'',
     open:false,
     refresh:false,
+    verified:false
  }
 
 class Dashboard extends Component {
@@ -56,6 +57,7 @@ class Dashboard extends Component {
             accessToken:user.token,
             profilePic:(user.profilePic)?(user.profilePic):process.env.REACT_APP_PROFILE_PIC,
             refresh:true,
+            verified:user.verified
         })
     }
 
@@ -115,10 +117,13 @@ class Dashboard extends Component {
 
     render() {
         return (
+        <>
             <Jumbotron fluid id="dashboardContainer">
 
-                <Navbar expand="lg" bg="info">
-                    <Navbar.Brand>KloudStorage</Navbar.Brand>
+                <Navbar expand="lg" style={{background: 'none'}}>
+                    <Navbar.Brand style={{color:"#ebfff8",fontSize: "xx-large"}}>
+                        KloudStorage
+                    </Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         <Power id="logoutBtn" onClick={this.handleLogout}/>
@@ -158,6 +163,8 @@ class Dashboard extends Component {
                                 <ProfileCard 
                                     profilePicSrc={this.state.profilePic} 
                                     username={this.state.username}
+                                    accessToken={this.state.accessToken}
+                                    verified={this.state.verified}
                                 />
                             </Col>
                             <Col id="storageView" xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -169,6 +176,7 @@ class Dashboard extends Component {
 
 
             </Jumbotron>
+        </>
         )
     }
 }

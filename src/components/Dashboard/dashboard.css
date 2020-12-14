@@ -6,31 +6,37 @@
     overflow: hidden;
     padding: 0;
     font-family: 'Texturina';
+    
+    background: #1FA2FF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom right, #F09819, #EDDE5D);  
+    background: linear-gradient(to bottom right, #F09819, #EDDE5D); 
+
 }
 
 #logoutBtn {
     font-size: xx-large;
-    color: white;
-    background: #ffc107;
-    border: solid 0.02rem white;
+    color: #ffffff;
+    background: #56e5a5bd;
+    border: solid 0.02rem #595959;
     border-radius: 5px;
-    padding: 2px;
+    padding: 6px;
     cursor: pointer;
-    animation:  deAnimateBtnLetter 0.3s forwards;
+    animation: deAnimateLgoutBtnLetter 0.3s forwards;
+    margin: 5px;
 }
 
 #logoutBtn:hover{
-    animation:  animateBtnLetter 0.3s forwards;
+    animation:  animateLgoutBtnLetter 0.3s forwards;
 }
 
 
-@keyframes animateBtnLetter{
-    from{width:100px} 
-    to{width:120px}
+@keyframes animateLgoutBtnLetter{
+    from{width:40px} 
+    to{width:60px}
 }
-@keyframes deAnimateBtnLetter{
-    from{width:120px} 
-    to{width:100px}
+@keyframes deAnimateLgoutBtnLetter{
+    from{width:60px} 
+    to{width:40px}
 }
 
 
@@ -41,11 +47,15 @@
     width: 96%;
     height: auto;
     min-height: 100%;
-    background: #5cb5b566;
+    /* background: #5cb5b566; */
     left: 1%;
-    border: solid 0.02rem #34a9a9;
     right: 1%;
     border-radius: 5px;
+
+    background: #FC354C;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom right, #eabf31,#c3f10c7a);  
+    background: linear-gradient(to bottom right, #eabf31,#c3f10c7a); 
+
 }
 
 #userFilesAdd {
@@ -59,12 +69,15 @@
     right: 1%;
     overflow: auto;
     border-radius: 5px;
-    border: solid 0.01rem #141bec87;
+
+    background-color: rgba(45, 104, 191, 0.52);
+    background: -webkit-linear-gradient(to bottom right, #eabf31,#c3f10c7a);  
+    background: linear-gradient(to bottom right, #eabf31,#c3f10c7a); 
+
 }
 
 .nav-tabs {
-    background: #17a2b8;
-    border-color: #17a2b8;
+    background: none;
 }
 .nav-tabs .nav-link {
     border: 1px solid transparent;
@@ -144,8 +157,11 @@
     margin: 1rem auto;
     left: 2%;
     width: 96%;
-    background: #258282;
     height: auto;
+    background: #258282;
+
+    background: -webkit-linear-gradient(to bottom right, #eabf31,#c3f10c7a);  
+    background: linear-gradient(to bottom right, #eabf31,#c3f10c7a); 
 }
 
 /***********ALL FILES COMPONENT***********************************/

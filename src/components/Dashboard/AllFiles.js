@@ -19,12 +19,9 @@
 function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
 
     const [myFiles,setMyFiles]             = useState([]);
-    const [utilityStates,setUtilityStates] = useState({
-        alert:'',
-        variant:'light',
-        showAlert:false
-    })
-    const [loading,setLoading]              = useState(false);
+    const [utilityStates,setUtilityStates] = useState({alert:'',variant:'light',showAlert:false})
+    const [childStates,setchildStates]     = useState({alert:'',variant:'light',showAlert:false})
+    const [loading,setLoading]             = useState(false);
 
 
     /**
@@ -90,14 +87,49 @@ function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
             
     }
 
+    /**
+     * 
+     * Show alerts from child components
+     * 
+     * @param {*} alertMsg 
+     * @param {*} variantType 
+     */
     const showEachFileMessage = (alertMsg,variantType)=>{
-        setUtilityStates({alert:alertMsg,variant:variantType});
+        setchildStates({alert:alertMsg,variant:variantType});
     } 
 
+    /**
+     * Add URL to input fields
+     * 
+     * @param {*} eleID : unique input field id based on fileKey
+     * @param {*} URL 
+     */
     const setURL = (eleID='',URL='')=>{
         document.getElementById(`${eleID}`).value = URL;
     }
 
+
+    /**
+     * Copy to clipboard
+     * 
+     * @param {*} e : input field of a card
+     */
+    const handleCopyToClipboard = (e)=>{
+        e.target.select();
+        e.target.setSelectionRange(0,99999);
+        document.execCommand('copy');
+
+        let oldVal = e.target.value;
+
+        e.target.value = 'Copied to clipboard!!';
+
+        setTimeout(()=>{
+            e.target.value = oldVal;
+        },2000);
+    }
+
+
+    
     return (
         <Jumbotron id="filesView">
             <Loading show={loading}/>
@@ -107,9 +139,21 @@ function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
                 id="fileAlert"
                 show={utilityStates.showAlert}
                 onClose={() => setUtilityStates({showAlert:false})} 
+                style={{textAlign:'center'}}
                 dismissible
             >
                 {utilityStates.alert}
+            </Alert>
+
+            <Alert 
+                variant={childStates.variant} 
+                id="fileAlert"
+                show={childStates.showAlert}
+                onClose={() => setchildStates({showAlert:false})} 
+                style={{textAlign:'center'}}
+                dismissible
+            >
+                {childStates.alert}
             </Alert>
 
             <Row>
@@ -144,6 +188,7 @@ function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
                                     value={(file.ACL==='private')?('URL Private'):(file.url)}
                                     readOnly
                                     className="cardURLInputField"
+                                    onClick = {handleCopyToClipboard}
                                 />
                             </Card>
 

@@ -46,13 +46,7 @@ export default function StoragePie({accessToken,show}) {
             })
             .catch(error=>{
                 const errMsg = error.response ? (error.response.data.errors.message):('Unknown Error Occured');
-
-                setUtilityStates({
-                    variant:'danger',
-                    alert:errMsg,
-                    showAlert:true
-                });
-
+                setUtilityStates({variant:'danger',alert:errMsg,showAlert:true});
                 // stop loading
                 setLoading(false);
             })
@@ -70,6 +64,7 @@ export default function StoragePie({accessToken,show}) {
                 id="fileAlert"
                 show={utilityStates.showAlert}
                 onClose={() => setUtilityStates({showAlert:false})} 
+                style={{textAlign:'center'}}
                 dismissible
             >
                 {utilityStates.alert}
