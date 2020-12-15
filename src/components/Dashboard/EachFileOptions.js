@@ -24,7 +24,7 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
 
         let obj ={
             fileKey,
-            sharable: (ACL==='private')?(true):(false)
+            shareable: (ACL==='private')?(true):(false)
         }
         
         setLoading(true);
