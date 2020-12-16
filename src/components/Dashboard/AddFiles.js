@@ -41,8 +41,13 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
      */
     const handleFileChanges = (e)=>{
 
+        let nameRegex = /\.{1}[\w]+$/;
+        let inValidName = false;
+        let inValidSize = false;
+
         setUtilityStates({alert:'',variant:'',showAlert:false});
         setuploadedFiles([]);
+        setfilesInfo([]);
 
         const files = e.target.files;
 
@@ -62,13 +67,27 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
         let filesInfo = [];
 
         for(let i=0;i<files.length;i++){
+            if(!files[i]['name'].match(nameRegex)){
+                inValidName = true;
+            }
+            if((files[i].size / Math.pow(10,6))<0.0000000001){
+                inValidSize = true;
+            }
             filesInfo.push({name:files[i]['name'],size:files[i].size});
             totalSize+=files[i].size;
         }
 
-        // check for file upload size
-        totalSize = (totalSize)/(Math.pow(10,6));
-        if(totalSize<0 || totalSize>20){
+        if(inValidName){
+            setUtilityStates({
+                alert:'Invalid name of file. Extension missing',
+                variant:'warning',
+                showAlert:true
+            })
+
+            return;
+        }
+
+        if(inValidSize){
             setUtilityStates({
                 alert:'Invalid file size (0-20] Mb only',
                 variant:'warning',
@@ -77,6 +96,19 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
 
             return;
         }
+
+        // check for file upload size
+        totalSize = (totalSize)/(Math.pow(10,6));
+        if(totalSize<=0 || totalSize>20){
+            setUtilityStates({
+                alert:'Invalid file size (0-20] Mb only',
+                variant:'warning',
+                showAlert:true
+            })
+
+            return;
+        }
+
 
         setfilesInfo([...filesInfo]);
 
@@ -96,19 +128,37 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
      */
     const handleUploads = ()=>{
 
+        setLoading(true);
         //check if valid for upload
         if(!valid4upload){
+            setUtilityStates({
+                alert:'File selection not valid for upload',
+                variant:'warning',
+                showAlert:true
+            })
+            return;
+        }
+
+        if(uploadedFiles.length===0){
+            setUtilityStates({
+                alert:'No file selected',
+                variant:'warning',
+                showAlert:true
+            })
             return;
         }
 
         let formData = new FormData();
-        formData.append('myFiles', uploadedFiles[0]);
+        for(let i=0;i<uploadedFiles.length;i++){
+            formData.append('myFiles', uploadedFiles[i]);
+        }
+        //formData.append('myFiles', [...uploadedFiles]);
 
         const URL_PREFIX = process.env.REACT_APP_SERVER_URL_PREFIX;
         const URL = `${URL_PREFIX}/files/add`;
 
         // start loading
-        setLoading(true);
+        
 
         axios.post(URL,formData,{
             headers: {
