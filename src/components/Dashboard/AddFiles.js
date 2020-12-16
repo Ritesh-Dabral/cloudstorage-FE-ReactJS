@@ -1,7 +1,7 @@
 
  /* Utility Modules*/
  import React,{useState,useEffect} from 'react'
- import {Jumbotron,Alert,Container,Card} from 'react-bootstrap'
+ import {Jumbotron,Alert,Container,Card,Spinner} from 'react-bootstrap'
  import {CloudUpload} from 'react-bootstrap-icons'
  import axios from 'axios'
  import {useHistory} from 'react-router-dom'
@@ -127,8 +127,9 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
      * Upload files if they are valid
      */
     const handleUploads = ()=>{
-
+        
         document.getElementById('fileUploadBtn').style.display = "none";
+        document.getElementById('fileUploadSpinner').style.display = "block";
         setLoading(true);
         //check if valid for upload
         if(!valid4upload){
@@ -169,6 +170,7 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
         })
             .then(response=>{
                 document.getElementById('fileUploadBtn').style.display = "block";
+                document.getElementById('fileUploadSpinner').style.display = "none";
 
                 // reset choose file field
                 document.getElementById("chooseFileBtn").value = "";
@@ -189,6 +191,8 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
             })
             .catch(error=>{
                 document.getElementById('fileUploadBtn').style.display = "block";
+                document.getElementById('fileUploadSpinner').style.display = "none";
+
                 document.getElementById("chooseFileBtn").value = "";
 
                 const errMsg = error.response ? (error.response.data.errors.message):('Unknown Error Occured');
@@ -254,7 +258,9 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
                     onClick={handleUploads}
                     id="fileUploadBtn"
                 />    
+                <Spinner animation="border" variant="primary" id="fileUploadSpinner" style={{margin:'1rem auto',display:"none"}}/>
             </Container>    
+
 
         </Jumbotron>
     )
