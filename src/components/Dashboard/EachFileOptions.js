@@ -75,6 +75,7 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
             responseType:'blob'
         })
             .then(response=>{
+                console.log(response.data);
                 const data = response.data;
                 const url = window.URL.createObjectURL(new Blob([data]));
                 const link = document.createElement('a');

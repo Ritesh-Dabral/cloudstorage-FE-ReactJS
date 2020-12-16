@@ -128,6 +128,7 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
      */
     const handleUploads = ()=>{
 
+        document.getElementById('fileUploadBtn').style.display = "none";
         setLoading(true);
         //check if valid for upload
         if(!valid4upload){
@@ -167,6 +168,8 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
             }
         })
             .then(response=>{
+                document.getElementById('fileUploadBtn').style.display = "block";
+
                 // reset choose file field
                 document.getElementById("chooseFileBtn").value = "";
 
@@ -185,6 +188,9 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
                 refreshFilesFunc(!currShowAllFiles);
             })
             .catch(error=>{
+                document.getElementById('fileUploadBtn').style.display = "block";
+                document.getElementById("chooseFileBtn").value = "";
+
                 const errMsg = error.response ? (error.response.data.errors.message):('Unknown Error Occured');
 
                 setUtilityStates({
