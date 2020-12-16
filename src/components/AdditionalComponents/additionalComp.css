@@ -2,9 +2,9 @@
 /*  loading cloud component */
 #loadingCloudContainer{
     position: fixed;
-    background-color: #37373a33;
+    background-color: #37373a67;
     height: 100%;
-    z-index: 10;
+    z-index: 99;
     opacity: 1;
     width: 100%;
     left: 0;
@@ -17,6 +17,7 @@
     margin: auto;
     height: auto;
     top: 30%;
+    z-index: 100;
 }
 
 /***** FOOTER *********/

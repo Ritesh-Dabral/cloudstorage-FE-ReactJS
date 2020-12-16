@@ -152,7 +152,7 @@ class Login extends Component {
                         <hr style={{margin:"5px 20px"}}/>
                         
                         <Alert variant={this.state.variant}
-                            style={{margin: "0 5px",padding: "3px"}}
+                            style={{margin: "0 5px",padding: "3px",textAlign:'center',overflowWrap: 'break-word'}}
                         >
                             {this.state.alert}
                         </Alert>

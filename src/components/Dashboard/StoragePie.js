@@ -64,7 +64,7 @@ export default function StoragePie({accessToken,show}) {
                 id="fileAlert"
                 show={utilityStates.showAlert}
                 onClose={() => setUtilityStates({showAlert:false})} 
-                style={{textAlign:'center'}}
+                style={{textAlign:'center',overflowWrap: 'break-word'}}
                 dismissible
             >
                 {utilityStates.alert}
