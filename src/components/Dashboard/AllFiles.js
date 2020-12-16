@@ -139,7 +139,7 @@ function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
                 id="fileAlert"
                 show={utilityStates.showAlert}
                 onClose={() => setUtilityStates({showAlert:false})} 
-                style={{textAlign:'center'}}
+                style={{textAlign:'center',overflowWrap: 'break-word'}}
                 dismissible
             >
                 {utilityStates.alert}
@@ -150,7 +150,7 @@ function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
                 id="fileAlert"
                 show={childStates.showAlert}
                 onClose={() => setchildStates({showAlert:false})} 
-                style={{textAlign:'center'}}
+                style={{textAlign:'center',overflowWrap: 'break-word'}}
                 dismissible
             >
                 {childStates.alert}
@@ -177,7 +177,7 @@ function AllFiles({accessToken,show,refreshFilesFunc,currShowAllFiles}) {
                                     />
                                 </div>
                                 <Card.Img variant="top" src={checkMimeType(file.contentType)} 
-                                    style={{width:'160px',margin:'0 auto'}}
+                                    style={{width:'100%',margin:'0 auto'}}
                                 />
                                 <Card.Body style={{margin:'2px auto',padding:'0%'}}>
                                     <Card.Title className="cardTitle">{file.originalname}</Card.Title>

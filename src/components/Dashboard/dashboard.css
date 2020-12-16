@@ -166,14 +166,15 @@
 
 /***********ALL FILES COMPONENT***********************************/
 .myFilesCard {
-    width: 18rem;
-    text-align:center;
+    width: 100%;
+    max-width: 18rem;
+    text-align: center;
     margin: 5px auto;
     padding: 20px;
     overflow-wrap: break-word;
     height: 380px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    opacity:1;
+    opacity: 1;
     animation: animateZoom 1s forwards;
 }
 .myFilesCard:hover{
@@ -181,8 +182,9 @@
     z-index: 10;
 }
 
-#noFilesFound{
-    width: 18rem;
+#noFilesFound {
+    width: 95%;
+    max-width: 18rem;
     margin: 1rem auto;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -254,3 +256,4 @@ svg#fileUploadBtn {
 }
 
 
+/*************HOVER NONE************/
