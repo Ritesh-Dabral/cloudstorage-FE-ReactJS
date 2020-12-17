@@ -128,8 +128,7 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
      */
     const handleUploads = ()=>{
         
-        document.getElementById('fileUploadBtn').style.display = "none";
-        document.getElementById('fileUploadSpinner').style.display = "block";
+        setUnsetBtn("none","block");
         setLoading(true);
         //check if valid for upload
         if(!valid4upload){
@@ -138,6 +137,9 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
                 variant:'warning',
                 showAlert:true
             })
+            setUnsetBtn("block","none");
+            document.getElementById("chooseFileBtn").value = "";
+
             return;
         }
 
@@ -147,6 +149,8 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
                 variant:'warning',
                 showAlert:true
             })
+            setUnsetBtn("block","none");
+
             return;
         }
 
@@ -169,9 +173,8 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
             }
         })
             .then(response=>{
-                document.getElementById('fileUploadBtn').style.display = "block";
-                document.getElementById('fileUploadSpinner').style.display = "none";
 
+                setUnsetBtn("block","none");
                 // reset choose file field
                 document.getElementById("chooseFileBtn").value = "";
 
@@ -190,9 +193,7 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
                 refreshFilesFunc(!currShowAllFiles);
             })
             .catch(error=>{
-                document.getElementById('fileUploadBtn').style.display = "block";
-                document.getElementById('fileUploadSpinner').style.display = "none";
-
+                setUnsetBtn("block","none");
                 document.getElementById("chooseFileBtn").value = "";
 
                 const errMsg = error.response ? (error.response.data.errors.message):('Unknown Error Occured');
@@ -207,6 +208,19 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
                 setLoading(false);
             })
     };
+
+
+    /**
+     * Sets the loading and unloading of buttons
+     * 
+     * @param {*} uploadBtn : refrences the visibillity of upload btn
+     * @param {*} spinnerBtn : refrences the visibility of spinner
+     */
+    const setUnsetBtn = (uploadBtn="block",spinnerBtn="none")=>{
+        document.getElementById('fileUploadBtn').style.display = uploadBtn;
+        document.getElementById('fileUploadSpinner').style.display = spinnerBtn;
+    }
+
 
     return (
         <Jumbotron id="addFilesContainer" style={{padding: "1rem",margin: "auto",background: "none"}}>
@@ -228,13 +242,13 @@ function AddFiles({refreshFilesFunc,accessToken,currShowAllFiles}) {
                 </form>
             </div>
 
-            <Container fluid>
+            <Container style={{width:"100%",maxWidth:"18rem"}} fluid>
                 {
                     filesInfo.length ? (
                         filesInfo.map((file,index)=>{
                             return (
                             <Card key={index+1} className='uploadFileDetCard' sm={3} md={2} style={{margin:"0.5rem auto"}}>
-                                <Card.Title>{file.name}</Card.Title>
+                                <Card.Title style={{overflowWrap:'break-word'}}>{file.name}</Card.Title>
                                 <Card.Text>{((file.size)/Math.pow(10,6))} Mb</Card.Text>
                             </Card>
                             )

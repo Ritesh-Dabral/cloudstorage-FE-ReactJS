@@ -72,12 +72,14 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
             headers:{
                 authorization: `Token ${accessToken}`
             },
-            responseType:'blob'
+            responseType: 'blob'
         })
             .then(response=>{
  
+
                 const data = response.data;
-                const url = window.URL.createObjectURL(new Blob([data]));
+                var blob = new Blob([data], {type: response.data.type});
+                const url = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
                 let file = fileKey.split('/');
@@ -86,9 +88,8 @@ function EachFileOptions({fileKey,ACL,accessToken,sendResMsg,setURL,fileId,currS
                     newName+=file[i];
                 }
                 file = file.join(' ');
-                let ext = file[file.length-1];
 
-                link.setAttribute('download', `${newName}.${ext}`);
+                link.setAttribute('download', `${newName}`);
                 document.body.appendChild(link);
                 link.click();
 
