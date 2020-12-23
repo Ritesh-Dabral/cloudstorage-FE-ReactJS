@@ -5,11 +5,13 @@
   import axios from 'axios'
   import {isEmail} from 'validator'
   import {withRouter} from 'react-router-dom'
+
  
  /* Css and Image imports */
   import './login.css'
   import LoginImage from '../../assets/images/login.png'
   import Loading from '../AdditionalComponents/Loading';
+  import GoogleOAuth from '../AdditionalComponents/GoogleOAuth'
 
 
 class Login extends Component {
@@ -136,6 +138,14 @@ class Login extends Component {
     }
 
 
+    showChildErrors=(err)=>{
+        this.setState({
+            ...this.state,
+            variant:'danger',
+            alert: err ? err : 'Unknown Error Occured'
+        })
+    }
+
     render() {
         return (
             <Jumbotron id="loginDiv" fluid style={{padding:"0%", margin:"auto", width:"100%"}}>
@@ -150,6 +160,14 @@ class Login extends Component {
                         <Card.Img variant="top" src={LoginImage} />
 
                         <hr style={{margin:"5px 20px"}}/>
+
+                        <GoogleOAuth 
+                            displayText="Sign in with google"
+                            showChildErrors={this.showChildErrors}
+                        />
+
+                        <hr style={{margin:"5px 20px"}}/>
+
                         
                         <Alert variant={this.state.variant}
                             style={{margin: "0 5px",padding: "3px",textAlign:'center',overflowWrap: 'break-word'}}

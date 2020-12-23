@@ -10,7 +10,7 @@
  import './signup.css'
  import SignupImage from '../../assets/images/signup.jpg'
  import Loading from '../AdditionalComponents/Loading';
-
+ import GoogleOAuth from '../AdditionalComponents/GoogleOAuth'
 
 class Signup extends Component {
 
@@ -145,6 +145,14 @@ class Signup extends Component {
    }
 
 
+   showChildErrors=(err)=>{
+        this.setState({
+            ...this.state,
+            variant:'danger',
+            alert: err ? err : 'Unknown Error Occured'
+        })
+    }
+
    render() {
        return (
            <Jumbotron id="signupDiv" fluid style={{padding:"0%", margin:"auto", width:"100%"}}>
@@ -159,6 +167,13 @@ class Signup extends Component {
                        <Card.Img variant="top" src={SignupImage} style={{padding: "0 5px",borderRadius: "8px"}}/>
 
                        <hr style={{margin:"5px 20px"}}/>
+                       
+                       <GoogleOAuth 
+                            displayText="Sign up with google"
+                            showChildErrors = {this.showChildErrors}
+                        />
+
+                        <hr style={{margin:"5px 20px"}}/>
                        
                        <Alert variant={this.state.variant}
                             style={{margin: "0 5px",padding: "3px",textAlign:'center',overflowWrap: 'break-word'}}
